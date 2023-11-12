@@ -34,3 +34,26 @@ build/
 
 ### ENV file ###
 .env
+
+
+# dependencies
+/clinet/node_modules
+/clinet/.pnp
+/clinet/.pnp.js
+
+# testing
+/clinet/coverage
+
+# production
+/clinet//build
+
+# misc
+/clinet/.DS_Store
+/clinet/.env.local
+/clinet/.env.development.local
+/clinet/.env.test.local
+/clinet/.env.production.local
+
+/clinet/npm-debug.log*
+/clinet/yarn-debug.log*
+/clinet/yarn-error.log*
