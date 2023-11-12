@@ -6,16 +6,12 @@ import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "reviews")
+@Document(collection = "test")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Review {
+
+public class Test {
     private ObjectId _id;
-    private String body;
-
-    Review(String body) {
-        this.body = body;
-    }
-
+    private String test;
 }
