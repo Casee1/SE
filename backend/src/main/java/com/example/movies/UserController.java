@@ -1,13 +1,15 @@
 package com.example.movies;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @RequestMapping("/api/v1/users")
+@CrossOrigin
 public class UserController {
+    @Autowired
     private UserService userService;
 
     public UserController(UserService userService) {
@@ -15,18 +17,32 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public void createUser(String username, String password) {
-        userService.signUp(username, password);
+    public HttpStatus createUser(@RequestBody String username, String password) {
+        if(userService.signUp(username, password)){
+            return(HttpStatus.OK);
+        }else{
+            return(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 
-    @GetMapping("/login")
-    public void loginUser(String username, String password) {
-        userService.logIn(username, password);
+    @PostMapping("/login")
+    public HttpStatus loginUser(@RequestBody String username, String password) {
+        if(userService.logIn(username, password).equals(null)){
+            return(HttpStatus.INTERNAL_SERVER_ERROR);
+        }else{
+            return(HttpStatus.OK);
+        }
+
     }
 
     @PostMapping("/like")
-    public void likeMovie(String username, String imdbId) {
-        userService.likeMovie(username, imdbId);
+    public void likeMovie(@RequestBody String userId, Movie movie) {
+        userService.likeMovie(userId, movie);
     }
 
+    @PostMapping("/dislike")
+    public void dislikeMovie(@RequestBody String userId, Movie movie) {
+        userService.dislikeMovie(userId, movie);
+    }
 }

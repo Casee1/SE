@@ -18,9 +18,9 @@ public class User {
     private String username;
     private String password;
     @DocumentReference
-    private List<String> liked;
+    private List<Movie> liked;
     @DocumentReference
-    private List<String> disliked;
+    private List<Movie> disliked;
     private String role;
 
     public User(String username, String password) {

@@ -15,5 +15,4 @@ public interface UserRepository extends MongoRepository<User, String>{
     Optional<User> findUserByLiked(Movie movie);
     Optional<User> findUserByDisliked(Movie movie);
 
-    void updateFirst(Criteria username, Update liked, Class<User> userClass);
 }
