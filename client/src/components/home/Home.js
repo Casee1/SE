@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import api from "../../api/axiosConfix";
 
 const Home = () => {
-
     const [message, setMessage] = useState();
     const getMessage=async()=>{
         try{
@@ -13,13 +12,9 @@ const Home = () => {
             console.log(err);
         }
     }
-
-
     useEffect(()=>{
-        getMessage();
+        getMessage().then(r => console.log(r));
     }, [])
-
-
     return(
         <div>
             {Array.isArray(message) && message.map((item, index) => (

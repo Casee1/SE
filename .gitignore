@@ -21,3 +21,10 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+/target/
+client/node_modules/
+client/.idea/
+/movies/target/
+/.idea/
+/src/.idea/
