@@ -26,4 +26,9 @@ public class MovieController {
 
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<Movie>> searchMovies(@RequestBody String title) {
+        return new ResponseEntity<List<Movie>>(movieService.searchMovies(title), HttpStatus.OK);
+    }
+
 }

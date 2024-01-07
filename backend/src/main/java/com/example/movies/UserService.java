@@ -45,4 +45,12 @@ public class UserService {
             userRepository.save(user);
         }
     }
+
+    public List<Movie> getLiked(String userId) {
+        return userRepository.findUserByUsername(userId).get().getLiked();
+    }
+
+    public List<Movie> getDisliked(String userId) {
+        return userRepository.findUserByUsername(userId).get().getDisliked();
+    }
 }

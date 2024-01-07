@@ -28,3 +28,8 @@ client/.idea/
 /movies/target/
 /.idea/
 /src/.idea/
+/frontend/node_modules/
+/backend/.idea/
+/.mvn/
+/frontend/.idea/
+/backend/target/

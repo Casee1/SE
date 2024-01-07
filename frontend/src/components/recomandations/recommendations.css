@@ -1,0 +1,111 @@
+.recommendation-row-container {
+    overflow-x: auto;
+    white-space: nowrap;
+    background-color: black;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    box-sizing: border-box;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+}
+
+.recommendation-movie-poster {
+    height: 300px;
+    border: 1px solid gold;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.recommendation-movie-poster > img {
+    height: 100%;
+    width: 100%;
+}
+
+.recommendation-movie-card {
+    display: inline-block;
+    width: 200px;
+    margin: 20px 10px;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    box-sizing: border-box;
+
+}
+.recommendation-movie-card:first-child {
+    margin-left: 0;
+}
+
+.recommendation-movie-card:hover {
+    transform: scale(1.1);
+    z-index: 2;
+    overflow: visible;
+    position: relative;
+}
+
+.recommendation-movie-info {
+    display: none;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    color: white;
+}
+
+.recommendation-movie-card:hover .recommendation-movie-info {
+    display: block;
+}
+
+.recommendation-movie-title, .recommendation-movie-genres {
+    margin: 5px 0;
+    font: 1rem 'Quicksand', Arial, Helvetica, sans-serif;
+    font-weight: bold;
+
+
+}
+
+@media only screen and (max-width: 800px) {
+    .recommendation-movie-info {
+        position: static;
+        display: block;
+    }
+}
+
+.nav-button {
+
+    position: absolute;
+    top: calc(100% + 90px);
+
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.6);
+    border: none;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 100;
+    scale: 3;
+
+
+}
+
+.nav-button-left {
+    left: 30px;
+}
+
+.nav-button-right {
+    right: 30px;
+}
+
+.recommendation-movie-card:first-child {
+    margin-left: 0;
+}
+
+.recommendation-movie-card:last-child {
+    margin-right: 0 ;
+}

@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/users")
 @CrossOrigin
@@ -36,6 +38,7 @@ public class UserController {
 
     }
 
+
     @PostMapping("/like")
     public void likeMovie(@RequestBody String userId, Movie movie) {
         userService.likeMovie(userId, movie);
@@ -44,5 +47,15 @@ public class UserController {
     @PostMapping("/dislike")
     public void dislikeMovie(@RequestBody String userId, Movie movie) {
         userService.dislikeMovie(userId, movie);
+    }
+
+    @GetMapping("/getLiked")
+    public ResponseEntity<List<Movie>> getLiked(@RequestBody String userId) {
+        return new ResponseEntity<List<Movie>>(userService.getLiked(userId), HttpStatus.OK);
+    }
+
+    @GetMapping("/getDisliked")
+    public ResponseEntity<List<Movie>> getDisliked(@RequestBody String userId) {
+        return new ResponseEntity<List<Movie>>(userService.getDisliked(userId), HttpStatus.OK);
     }
 }
