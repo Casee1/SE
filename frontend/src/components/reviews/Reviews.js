@@ -19,9 +19,17 @@ const Reviews = ({getMovieData,movie,reviews,setReviews}) => {
         e.preventDefault();
 
         try{
-            const response = await api.post("/api/v1/like",{imdbId:movie.title,username:user.username});
-            if(response.status===200)
-            {
+            const response = await fetch("http://localhost:8080/api/v1/like", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  username: user.username,
+                    imdbId: movie.imdbId,
+                }),
+                });
+            if(response.status===200) {
                 console.log("liked");
             }
         }
@@ -35,10 +43,21 @@ const Reviews = ({getMovieData,movie,reviews,setReviews}) => {
         e.preventDefault();
 
         try{
-            const response = await api.post("/api/v1/dislike",{imdbId:movie.title,username:user.username});
-            if(response.status===200)
-            {
+            const response = await fetch("http://localhost:8080/api/v1/dislike", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  username: user.username,
+                    imdbId: movie.imdbId,
+                }),
+                });
+            if(response.status===200) {
                 console.log("disliked");
+            }else{
+console.log("error");
+
             }
         }
         catch(err)

@@ -37,7 +37,7 @@ function App() {
 
   const getMovieData = async (movieId) => {
      
-    try 
+    try
     {
         const response = await api.get(`/api/v1/movies/${movieId}`);
 
@@ -45,7 +45,7 @@ function App() {
 
         setMovie(singleMovie);
 
-        setReviews(singleMovie.reviews);
+        setReviews(singleMovie.reviewIds);
         
 
     } 
