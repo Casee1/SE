@@ -8,6 +8,8 @@ const Register = () => {
     const { setUser } = useUser();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [userLikedMovies, setUserLikedMovies] = useState([]);
+  const [userDislikedMovies, setUserDislikedMovies] = useState([]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,6 +23,8 @@ const Register = () => {
         body: JSON.stringify({
           username: username,
           password: password,
+          userLikedMovies: userLikedMovies,
+          userDislikedMovies: userDislikedMovies,
         }),
       });
 

@@ -24,4 +24,12 @@ export const useUser = () => {
   return context;
 };
 
+export const setUser = (newUsername) => {
+  const context = useContext(UserContext);
+    if (!context) {
+        throw new Error('setUser must be used within a UserProvider');
+    }
+    context.setUser(newUsername);
+};
+
 export default UserContext;

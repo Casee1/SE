@@ -1,16 +1,51 @@
-import {useEffect, useRef} from 'react';
+import {useContext, useEffect, useRef} from 'react';
 import api from '../../api/axiosConfig';
 import {useParams} from 'react-router-dom';
 import {Container, Row, Col} from 'react-bootstrap';
 import ReviewForm from '../reviewForm/ReviewForm';
 
 import React from 'react'
+import {useUser} from "../context/UserContext";
 
 const Reviews = ({getMovieData,movie,reviews,setReviews}) => {
 
     const revText = useRef();
     let params = useParams();
     const movieId = params.movieId;
+    const user=useUser();
+    console.log(reviews);
+
+    const like = async (e) => {
+        e.preventDefault();
+
+        try{
+            const response = await api.post("/api/v1/like",{imdbId:movie.title,username:user.username});
+            if(response.status===200)
+            {
+                console.log("liked");
+            }
+        }
+        catch(err)
+        {
+            console.error(err);
+        }
+    }
+
+    const dislike = async (e) => {
+        e.preventDefault();
+
+        try{
+            const response = await api.post("/api/v1/dislike",{imdbId:movie.title,username:user.username});
+            if(response.status===200)
+            {
+                console.log("disliked");
+            }
+        }
+        catch(err)
+        {
+            console.error(err);
+        }
+    }
 
     useEffect(()=>{
         getMovieData(movieId);
@@ -55,7 +90,8 @@ const Reviews = ({getMovieData,movie,reviews,setReviews}) => {
                     <>
                         <Row>
                             <Col>
-                                <ReviewForm handleSubmit={addReview} revText={revText} labelText = "Write a Review?" />  
+                                <ReviewForm handleSubmit={addReview} revText={revText} labelText = "Write a Review?"
+                                            like={like} dislike={dislike} />
                             </Col>
                         </Row>
                         <Row>
