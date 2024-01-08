@@ -45,6 +45,8 @@ const Recommendations = ({ movies }) => {
         }
     };
 
+    console.log(movies)
+
     return (
         <div className="container">
             <div className="row">
@@ -53,13 +55,14 @@ const Recommendations = ({ movies }) => {
                 </div>
             </div>
 
+
             <div className="recommendation-row-container" ref={recommendationRowRef}>
                 <button className="nav-button nav-button-left" onClick={scrollLeft}>‹</button>
                 <div className="recommendation-row">
                     {duplicatedMovies.map((movie, index) => (
                         <div className="recommendation-movie-card" key={`movie-${index}`}>
                             <div className="recommendation-movie-poster">
-                                <img src={movie.poster} alt={movie.title} />
+                                <img src={movie.poster} alt={movie.title}/>
                             </div>
                             <div className="recommendation-movie-info">
                                 <h5 className="recommendation-movie-title">{movie.title}</h5>

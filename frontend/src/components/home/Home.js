@@ -8,7 +8,7 @@ const Home = ({movies, recommendations}) => {
   return (
       <>
         <Hero movies={movies}/>
-        <Recommendations movies={recommendations}/>
+        {/*<Recommendations movies={recommendations}/>*/}
       </>
   )
 }

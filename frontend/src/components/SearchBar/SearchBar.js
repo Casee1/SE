@@ -7,7 +7,7 @@ const SearchBar = () => {
 
 const navigate = useNavigate();
 
-    const [title, setTitle] = useState(''); // Added state to store the title
+    const [title, setTitle] = useState('');
 
         const handleSearch = async (e) => {
 
@@ -20,10 +20,12 @@ const navigate = useNavigate();
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    title: title, // Use the title from state
+                    title: title, 
                 }),
 
             });
+
+            console.log(response.data);
 
             if (response.ok) {
                 console.log("Search successful");

@@ -1,4 +1,4 @@
-import {useContext, useEffect, useRef} from 'react';
+import {useContext, useEffect, useRef, useState} from 'react';
 import api from '../../api/axiosConfig';
 import {useParams} from 'react-router-dom';
 import {Container, Row, Col} from 'react-bootstrap';
@@ -6,6 +6,7 @@ import ReviewForm from '../reviewForm/ReviewForm';
 
 import React from 'react'
 import {useUser} from "../context/UserContext";
+import Recommendations from "../recomandations/Recommendations";
 
 const Reviews = ({getMovieData,movie,reviews,setReviews}) => {
 
@@ -13,7 +14,7 @@ const Reviews = ({getMovieData,movie,reviews,setReviews}) => {
     let params = useParams();
     const movieId = params.movieId;
     const user=useUser();
-    console.log(reviews);
+    const [rec, setRec] = useState([]);
 
     const like = async (e) => {
         e.preventDefault();
@@ -56,7 +57,7 @@ const Reviews = ({getMovieData,movie,reviews,setReviews}) => {
             if(response.status===200) {
                 console.log("disliked");
             }else{
-console.log("error");
+                console.log("error");
 
             }
         }
@@ -66,9 +67,59 @@ console.log("error");
         }
     }
 
+
+    //     @PostMapping("/recomandation")
+    //     public ResponseEntity<List<Movie>> searchRecomandation(@RequestBody Movie movie) {
+    //         return new ResponseEntity<List<Movie>>(movieService.searchRecomandation(movie), HttpStatus.OK);
+    //     }
+
+    const getRecommendations = async (movie) => {
+
+        console.log(movie);
+
+        if(!movie) return;
+        try{
+            const response = await api.post("/api/v1/movies/recomandation",movie);
+
+            const filtered = response.data.filter((mov) => mov.imdbId !== movie.imdbId);
+            // sort the movies by the highest genre match
+            filtered.sort((a, b) => {
+                return movie.genres.filter((genre) => b.genres.includes(genre)).length -
+                    movie.genres.filter((genre) => a.genres.includes(genre)).length;
+            });
+
+            //if the current movie is in the recommendations, remove it
+            if(filtered.includes(movie))
+            {
+                filtered.splice(filtered.indexOf(movie),1);
+
+            }
+
+            if(filtered.length>10)
+            {
+                filtered.length=10;
+            }
+
+
+
+            console.log(filtered);
+
+            setRec(filtered);
+            console.log(rec);
+        }
+
+        catch(err) {
+            console.error(err);
+        }
+
+    }
+    getRecommendations(movie);
+
     useEffect(()=>{
         getMovieData(movieId);
+
     },[])
+
 
     const addReview = async (e) =>{
         e.preventDefault();
@@ -109,6 +160,28 @@ console.log("error");
                     <>
                         <Row>
                             <Col>
+                                <h3>{movie?.title}</h3>
+                            </Col>
+                        </Row>
+
+                        <Row>
+                            <Col>
+                                <p>Year: {movie?.releaseDate}</p>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <p>Genre: {movie?.genres?.map((gen, index)=>
+                                    <span key={index}>{gen} </span>
+                                )}</p>
+                            </Col>
+                        </Row>
+                    </>
+                }
+                {
+                    <>
+                        <Row>
+                            <Col>
                                 <ReviewForm handleSubmit={addReview} revText={revText} labelText = "Write a Review?"
                                             like={like} dislike={dislike} />
                             </Col>
@@ -121,9 +194,9 @@ console.log("error");
                     </>
                 }
                 {
-                    reviews?.map((r) => {
+                    reviews?.map((r, index) => {
                         return(
-                            <>
+                            <div key={index}>
                                 <Row>
                                     <Col>{r.body}</Col>
                                 </Row>
@@ -132,7 +205,7 @@ console.log("error");
                                         <hr />
                                     </Col>
                                 </Row>                                
-                            </>
+                            </div>
                         )
                     })
                 }
@@ -142,7 +215,8 @@ console.log("error");
             <Col>
                 <hr />
             </Col>
-        </Row>        
+        </Row>
+        <Recommendations movies={rec} />
     </Container>
   )
 }
