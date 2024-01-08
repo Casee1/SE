@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser }  from '../context/UserContext';
+import {Buffer} from "buffer";
+import scrypt from "scrypt-js";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -13,29 +15,44 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const response = await fetch("http://localhost:8080/api/v1/users/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: username,
-          password: password,
-          userLikedMovies: userLikedMovies,
-          userDislikedMovies: userDislikedMovies,
-        }),
-      });
+    async function hashPassword(password, salt) {
+      const passwordBuffer = Buffer.from(password);
+      const saltBuffer = Buffer.from(salt);
+      const keyLengthBytes = 32; // Desired length of the derived key in bytes
 
-      if (response.ok) {
-        // Handle successful login (redirect, set state, etc.)
-        console.log("Login successful");
-        setUser(username);
-        navigate("/");
-      } else {
-        // Handle login error
-        console.error("Login failed");
-      }
+      // N: CPU cost, r: Memory cost, p: Parallelization cos
+      const N = 16384, r = 8, p = 1;
+
+      const derivedKey = await scrypt.scrypt(passwordBuffer, saltBuffer, N, r, p, keyLengthBytes);
+      return Buffer.from(derivedKey).toString('hex');
+    }
+
+    try {
+      hashPassword(password, "M0!e#n3i4").then(async hashedPassword => {
+        const response = await fetch("http://localhost:8080/api/v1/users/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: username,
+            password: hashedPassword,
+            userLikedMovies: userLikedMovies,
+            userDislikedMovies: userDislikedMovies,
+          }),
+        });
+
+
+        if (response.ok) {
+          // Handle successful login (redirect, set state, e
+          console.log("Login successful");
+          setUser(username);
+          navigate("/");
+        } else {
+          // Handle login error
+          console.error("Login failed");
+        }
+      });
     } catch (error) {
       console.error("Error during login:", error);
     }
