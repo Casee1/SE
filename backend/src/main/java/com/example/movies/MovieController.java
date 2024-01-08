@@ -26,9 +26,15 @@ public class MovieController {
 
     }
 
-    @GetMapping("/search")
+    @PostMapping("/search")
     public ResponseEntity<List<Movie>> searchMovies(@RequestBody String title) {
         return new ResponseEntity<List<Movie>>(movieService.searchMovies(title), HttpStatus.OK);
     }
+
+    @PostMapping("/recomandation")
+    public ResponseEntity<List<Movie>> searchRecomandation(@RequestBody Movie movie) {
+        return new ResponseEntity<List<Movie>>(movieService.searchRecomandation(movie), HttpStatus.OK);
+    }
+
 
 }

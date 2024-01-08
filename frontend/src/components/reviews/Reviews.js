@@ -19,14 +19,14 @@ const Reviews = ({getMovieData,movie,reviews,setReviews}) => {
         e.preventDefault();
 
         try{
-            const response = await fetch("http://localhost:8080/api/v1/like", {
+            const response = await fetch("http://localhost:8080/api/v1/users/like", {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
                   username: user.username,
-                    imdbId: movie.imdbId,
+                    movie: movie,
                 }),
                 });
             if(response.status===200) {
@@ -43,14 +43,14 @@ const Reviews = ({getMovieData,movie,reviews,setReviews}) => {
         e.preventDefault();
 
         try{
-            const response = await fetch("http://localhost:8080/api/v1/dislike", {
+            const response = await fetch("http://localhost:8080/api/v1/users/dislike", {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
                   username: user.username,
-                    imdbId: movie.imdbId,
+                    movie: movie,
                 }),
                 });
             if(response.status===200) {
